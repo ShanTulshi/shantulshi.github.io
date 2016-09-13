@@ -27,6 +27,7 @@ int main(int argc, char ** argv) {
 	}
 	else {
 		files = (char **) malloc(sizeof(char *));
+		printf("USAGE: ./document_test <file 1> <file 2> ...\nUsing the file \'test.txt\' instead...\n");
 		files[0] = "test.txt";
 		c = 1;
 	}
@@ -49,6 +50,6 @@ int main(int argc, char ** argv) {
 		printf("\n\n");
 	}
 	if(files)
-		free(files)
+		free(files);
 	return 0;
 }
