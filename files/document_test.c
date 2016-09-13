@@ -19,7 +19,7 @@ void dtor (void * elem) {
 int main(int argc, char ** argv) {
 	int c = 0;
 	char ** files = NULL;
-	if(argc > 0) {
+	if(argc > 1) {
 		files = (char **) malloc((argc - 1) * sizeof(char *));
 		int i = 1;
 		for(; i < argc; i++) files[i - 1] = argv[i];
