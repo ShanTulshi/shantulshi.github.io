@@ -48,5 +48,7 @@ int main(int argc, char ** argv) {
 		Document_destroy(d);
 		printf("\n\n");
 	}
+	if(files)
+		free(files)
 	return 0;
 }
