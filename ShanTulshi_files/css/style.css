@@ -75,3 +75,30 @@ button.height-wrap-content {
 .text-black {
     color: black;
 }
+
+.parallax img {
+    max-width: 100%;
+    width: auto;
+}
+
+@media screen and (max-width: 1000px) {
+    .parallax img {
+        max-height: 100%;
+        
+    }
+}
+
+#title-text {
+    position: relative;
+    font-size: 5vw;
+}
+
+.name-container-parent {
+    
+    display: flex;
+    justify-content: center;
+}
+
+.name-container {
+    align-self: center;
+}
