@@ -525,6 +525,7 @@
 					text-align: center;
 					text-indent: 3.75em;
 					white-space: nowrap;
+					background-color: white;
 				}
 
 					ul.icons li a:before {
@@ -722,6 +723,7 @@
 
 	#wrapper section.load {
 		opacity: 0.95;
+		background-color: rgba(0,0,0,0);
 	}
 
 		#main .avatar {
@@ -734,7 +736,7 @@
 				display: block;
 				margin: 0 auto;
 				border-radius: 100%;
-				box-shadow: 0 0 0 1.5em #ffffff;
+				/*box-shadow: 0 0 0 1.5em #ffffff;*/
 			}
 
 			#main .avatar:before {
