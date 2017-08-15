@@ -66,7 +66,7 @@
 				document.getElementById("wrapper").children[0].className += "load";
 				var text = new Array;
 				$.get('static/subs.txt', function(data){
-				    text = data.split('\n').splice(-1, 1);
+				    text = data.split('\n').slice(0, -1);
 				});
 
 				var count = 0;
