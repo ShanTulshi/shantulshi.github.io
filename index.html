@@ -16,6 +16,8 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!--load JQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body class="is-loading" background="">
 
@@ -62,15 +64,11 @@
 
 			<script type="text/javascript">
 				document.getElementById("wrapper").children[0].className += "load";
-				var text = ["AKA Shan Tulshi",
-							"CS@Illinois Class of 2018½",
-							"Let's get pmt sometime",
-							"minimal is the new black",
-							"<a href=\"https://facebook.com/chaitownuiuc\" target=\"_blank\">Chai Town</a>'s better looking treasurer",
-							"There's no place like 127.0.0.1",
-					    		"Stressed backwards is Desserts!",
-					    		"You look great today!"
-						];
+				var text = new Array;
+				$.get('static/subs.txt', function(data){
+				    text = data.split('\n');
+				});
+
 				var count = 0;
 				var elem = document.getElementById("changeText");
 				setInterval(change, 3000);
