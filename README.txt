@@ -7,6 +7,9 @@ Credits:
 
 	Icons:
 		Font Awesome (fortawesome.github.com/Font-Awesome)
+	
+	Resume: 
+		Deedy Resume (https://github.com/deedy/Deedy-Resume)
 
 	Other:
 		html5shiv.js (@afarkas @jdalton @jon_neal @rem)
