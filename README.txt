@@ -1,4 +1,4 @@
-Just another minimal personal website.
+Yet another minimal personal website.
 
 Credits:
 
