@@ -1,0 +1,32 @@
+@keyframes fadein {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+.Main {
+	animation: fadein 1s;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	height: 100vh;
+	font-family: sans-serif;
+}
+
+.Main-portrait {
+	height: 128px;
+	border-radius: 64px;
+}
+
+.Main-header {
+	background-color: #FFF;
+	height: 150px;	
+}
+
+.Main-title {
+	font-weight: lighter;
+}
+
+.Main-intro {
+	font-size: large;
+}
