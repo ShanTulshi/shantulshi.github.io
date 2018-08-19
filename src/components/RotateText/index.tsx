@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import '../styles/RotateText.css';
+import './RotateText.css';
 
 interface IRotateTextState {
 	readonly text: string;

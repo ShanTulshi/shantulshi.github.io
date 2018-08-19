@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-import "../styles/fontello.css"
-import '../styles/Links.css';
+import "../../styles/fontello.css"
+import './Links.css';
 
 class Links extends Component<{}, {}> {
 	public render(): React.ReactNode {
