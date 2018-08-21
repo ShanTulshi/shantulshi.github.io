@@ -4,6 +4,7 @@ import * as React from 'react';
 // Components
 import Links from './components/Links'
 import RotateText from './components/RotateText';
+import WebResume from './components/WebResume';
 
 // CSS
 import './App.css';
@@ -21,6 +22,7 @@ class App extends React.Component {
             <h1 className="Main-title">Shantanu Tulshibagwale</h1>
             <RotateText />
             <Links />
+            <WebResume />
           </header>
         </div>
       </div>
