@@ -2,3 +2,12 @@
 	font-family: sans-serif;
 	font-weight: lighter;
 }
+
+a {
+	text-decoration: none;
+}
+
+h1:hover, h2:hover {
+	color: #E44;
+	transition: 0.3s;
+}

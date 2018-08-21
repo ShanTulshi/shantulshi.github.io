@@ -1,5 +1,9 @@
 body {
 	margin: auto;
 	max-width: 50em;
-	padding: 1em;
+	padding: 0 0.62em;
+}
+
+@media print {
+	max-width: none;
 }
