@@ -1,6 +1,6 @@
 # Personal Website!
 
-Still entirely a work in progress. Soon to be hosted at [notgood.site](https://notgood.site). Check it out!
+Still entirely a work in progress. Live at [notgood.site](https://notgood.site). Check it out!
 
 Made with help from: 
 - Resume: [Deedy Resume](https://github.com/deedy/Deedy-Resume) (Web resume coming soon!)

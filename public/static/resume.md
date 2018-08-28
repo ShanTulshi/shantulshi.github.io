@@ -19,6 +19,7 @@ Expected Graduation: May 2019
 ##### June - August 2018 | Seattle, WA
 
 - Built system to effortlessly import code samples from documentation to Automation.
+- Designed and implemented import UX using TypeScript and C#.
 - Collaborated across teams to create and iterate on feature design and implementation.
 
 ### CS 498 Virtual Reality | *Course Staff*
@@ -50,7 +51,7 @@ Expected Graduation: May 2019
 - Built configuration and testing tools for platform and model settings.
 - Connected platform to new exchange, wrote reusable & performant TCP interface.
 
-### Ampool.io | *Software Intern*
+### [Ampool.io](https://ampool.io) | *Software Intern*
 
 ##### May - August 2016 | Santa Clara, CA
 

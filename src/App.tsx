@@ -9,14 +9,16 @@ import Links from './components/Links'
 import RotateText from './components/RotateText';
 import WebResume from './components/WebResume';
 
+// Global CSS
+import './styles/common.css';
+
 // CSS
 import './App.css';
-import './styles/common.css';
 
 // Other assets
 import moi from './images/avatar.jpg';
 
-class Home extends React.Component {
+class Home extends React.Component<any, {}> {
   public render() {
     return (
       <div>
