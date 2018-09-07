@@ -2,6 +2,7 @@ body {
 	margin: auto;
 	max-width: 50em;
 	padding: 0 0.62em;
+	font-family: sans-serif;
 }
 
 @media print {

@@ -1,6 +1,6 @@
 # Shantanu Tulshibagwale
 
-[notgood.site](https://notgood.site) | [shan@notgood.site](mailto:shan@notgood.site?body=%0A%0A-Sent%20from%20website.)
+[notgood.site](https://notgood.site) | [shan@notgood.site](mailto:shan@notgood.site?body=%0A%0A-Sent%20from%20website.) | [PDF Version](/resume.pdf)
 
 ---
 
