@@ -117,3 +117,7 @@ Expected Graduation: May 2019
 ### Familiar
 
 • Rust • MySQL • HTML • CSS •
+
+---
+
+This is an experiment in using Markdown to define my resume, and trying to render it well on the web.
