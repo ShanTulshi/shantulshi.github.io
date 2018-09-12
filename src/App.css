@@ -1,7 +1,7 @@
 @keyframes fadein {
 	from {
 		opacity: 0;
-		transform: translateY(10%);
+		transform: translateY(100%);
 	}
 	to {
 		opacity: 1;
@@ -9,7 +9,6 @@
 }
 
 .Main {
-	animation: fadein 1s;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -25,6 +24,7 @@
 .Main-header {
 	background-color: #FFF;
 	height: 150px;
+	animation: fadein 1s;
 }
 
 .Main-title {
