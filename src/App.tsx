@@ -38,7 +38,7 @@ class Home extends React.Component<any, {}> {
 const App = () => (
   <Router>
     <Switch>
-      <Route exact={true} path="/resume" component={WebResume} />
+      <Route exact={true} path="/cv" component={WebResume} />
       <Route path="/" component={Home} />
     </Switch>
   </Router>
