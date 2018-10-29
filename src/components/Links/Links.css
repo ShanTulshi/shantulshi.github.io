@@ -12,6 +12,7 @@
 	text-decoration: none;
 	font-size: 1.5em;
 	color: #444;
+	transition: 0.5s;
 }
 
 .icons li a:visited {
