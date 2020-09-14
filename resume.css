@@ -1,0 +1,19 @@
+@import "common.css";
+
+.friendly-text {
+  color: #505050;
+}
+
+.subtitle {
+  color: #505050;
+}
+
+.aka {
+  align-self: center;
+}
+
+@media print {
+  .friendly-text {
+    visibility: hidden;
+  }
+}
