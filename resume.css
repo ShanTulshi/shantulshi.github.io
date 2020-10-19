@@ -2,18 +2,25 @@
 
 .friendly-text {
   color: #505050;
+  font-size: 0.75em;
 }
 
 .subtitle {
   color: #505050;
 }
 
-.aka {
-  align-self: center;
+.title,.aka {
+  text-align: center;
 }
 
 @media print {
   .friendly-text {
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 40em) {
+  .friendly-text { 
     visibility: hidden;
   }
 }
