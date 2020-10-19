@@ -9,6 +9,11 @@
   color: #505050;
 }
 
+header {
+  display: flex;
+  flex-direction: column;
+}
+
 .title,.aka {
   text-align: center;
 }
