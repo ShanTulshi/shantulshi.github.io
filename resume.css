@@ -1,12 +1,12 @@
 @import "common.css";
 
 .friendly-text {
-  color: #505050;
+  color: var(--subtitle-text);
   font-size: 0.75em;
 }
 
 .subtitle {
-  color: #505050;
+  color: var(--subtitle-text);
 }
 
 header {

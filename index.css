@@ -1,12 +1,12 @@
 @import "common.css";
 
 .mi.nombre {
-  color: blue;
+  color: var(--link-color);
   text-decoration: none;
   transition: color 0.25s ease;
 }
 .mi.nombre:hover {
-  color: red;
+  color: var(--link-visited-color);
   transition: color 0.25s ease;
 }
 ul {

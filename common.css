@@ -1,7 +1,29 @@
+html {
+  --background-color: white;
+  --text-color: black;
+  --link-color: blue;
+  --link-hover-color: purple;
+  --link-visited-color: red;
+  --subtitle-text: #505050;
+}
+
+@media (prefers-color-scheme: dark) {
+    html { 
+      --background-color: black;
+      --text-color: white;
+      --link-color: cornflowerblue;
+      --link-hover-color: mediumslateblue;
+      --link-visited-color: salmon;
+      --subtitle-text: #C0C0C0;
+    }
+}
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .main {
@@ -33,18 +55,18 @@ h1 {
 }
 
 a {
-  color: blue;
+  color: var(--link-color);
   text-decoration: none;
   transition: color 0.25s ease;
 }
 
 a:visited {
-  color: red;
+  color: var(--link-visited-color);
   transition: color 0.25s ease;
 }
 
 a:hover,a:focus {
-  color: purple;
+  color: var(--link-hover-color);
   transition: color 0.25s ease;
 }
 
