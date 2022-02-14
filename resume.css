@@ -19,8 +19,8 @@ header {
 }
 
 @media print {
-  .friendly-text {
-    visibility: hidden;
+  .no-print {
+    display: none;
   }
 }
 

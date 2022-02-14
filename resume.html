@@ -8,16 +8,34 @@
 <body>
     <div class="main">
         <header>
-            <small class="friendly-text">🌊 hi! here are some things I'd like to tell you about myself:</small>
-            <h1 class="title">I'm Shantanu Tulshibagwale.</h1>
-            <sub class="aka">(also known as Shan Tulshi)</sub>
+            <small class="friendly-text no-print">🌊 hi! here are some things I'd like to tell you about myself:</small>
+            <h1 class="title"><span class="no-print">I'm </span>Shantanu Tulshibagwale.</h1>
+            <sub class="aka no-print">(also known as Shan Tulshi)</sub>
         </header>
         <p>
             I'm currently a Product Engineer at <a href="https://asana.com/?noredirect">Asana</a>. 
             I've been a part of the Customer Scaling team here since June 2019.<br>
+            <small class="subtitle">
+                <strong>2022</strong><br>
+                🛠 WIP, the year's just starting!<br>
+                <strong>2021</strong><br>
+                I did some more stuff…<br>
+                <strong>2020</strong><br>
+                I received ownership of the migrator tool, and surrounding framework, that we built in 2019.<br>
+                <strong>2019</strong><br>
+                The first few months were onboarding – went through a real fun bootcamp, and shipped my first couple of bugfixes and first small features. 
+                One small feature represented our second use case (and first guinea pig experience) for a new engineering platform my team maintained,
+                which allowed product features to leverage aggregate data from our data science and business systems. Along the way, I made contributions
+                to the developer experience for using this system, including creating scripts to test this system in our dev environments.<br>
+                From there, I joined our fledgeling work on our domain migrator project. This tool, to allow customers to "merge" two Asana instances together,
+                understood our object model and was able to copy it from one instance to another, preserving links between objects and discarding broken objects.
+                This functionality needed to be supported for all future objects as well, so we emphasized a developer experience that was straightforward for
+                most objects (which could be supported with a one-line change!), but extensible enough for the myriad ways our product evolves.
+            </small>
+
         </p>
         <p>
-            Before this, I studied <a href="https://cs.illinois.edu/">Computer Science</a> at the <a href="https://illinois.edu">University of Illinois at Urbana-Champaign</a>, 
+            My last adventure was studying <a href="https://cs.illinois.edu/">Computer Science</a> at the <a href="https://illinois.edu">University of Illinois at Urbana-Champaign</a>, 
             from August 2015 through May 2019.
         </p>
         <p>
@@ -40,5 +58,9 @@
                 and used this data to generate a health score that we could then predictively alert on.
             </small>
         </p>
+    </div>
+    <footer class="no-print">
+        <a href="/" aria-label="back">↩️</a>
+    </footer>
 </body>
 </html>
