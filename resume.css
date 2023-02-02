@@ -14,13 +14,18 @@ header {
   flex-direction: column;
 }
 
-.title,.aka {
+.title,.aka,.resume-link {
   text-align: center;
 }
 
+.resume-link {
+  margin-top: 1em;
+  font-size: 0.5em;
+}
+
 @media print {
-  .friendly-text {
-    visibility: hidden;
+  .no-print {
+    display: none;
   }
 }
 
