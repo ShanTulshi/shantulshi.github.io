@@ -24,6 +24,7 @@ body {
   align-items: center;
   background-color: var(--background-color);
   color: var(--text-color);
+  margin: 0;
 }
 
 .main {
