@@ -1,5 +1,58 @@
 @import "common.css";
 
+@keyframes slideUp {
+  0% {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 100%;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-33%);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 100%;
+  }
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.main {
+  animation: 0.3s ease 0s slideUp;
+  padding: 16px;
+}
+
+@media (min-width: 800px) {
+  .main {
+    flex-direction:row;
+    gap: 16px;
+  }
+}
+
+.big-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3em;
+  text-align: left;
+  margin: auto;
+  width: 2em;
+  word-break: break-all;
+  /* TODO transition: opacity 0.5s ease; */
+  /* opacity: 1; */
+  border: 0.33em solid white;
+  padding: 8px;
+}
+
 .mi.nombre {
   color: var(--link-color);
   text-decoration: none;
