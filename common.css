@@ -41,7 +41,7 @@ body {
 
 p,a,li,h1,small,sub {
   font-family: sans-serif;
-  font-weight: lighter;
+  font-weight: 300;
 }
 
 small,sub {
