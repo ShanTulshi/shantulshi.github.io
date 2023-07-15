@@ -38,7 +38,7 @@ body {
   word-break: break-all;
   /* TODO transition: opacity 0.5s ease; */
   /* opacity: 1; */
-  border: 0.33em solid white;
+  border: 0.33em solid var(--text-color);
   padding: 8px;
 }
 
