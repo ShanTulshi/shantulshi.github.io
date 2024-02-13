@@ -31,6 +31,12 @@
             } else {
                 body.style.background="url('https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif')"
             }
+
+            if(body.style.cursor) {
+                body.style.cursor="";
+            } else {
+                body.style.cursor="url('/static/lightsaber.png'), pointer"
+            }
         }
         (() => {
             const mainContent = document.querySelector('.body-content');
