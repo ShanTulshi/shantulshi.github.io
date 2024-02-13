@@ -29,7 +29,6 @@ body {
 
 .main {
   background-color: var(--background-color);
-  color: var(--text-color);
   font-size: 1.5em;
   max-width: 36em;
   display: flex;
@@ -89,5 +88,6 @@ a:hover,a:focus {
 
   .main {
     max-width: unset;
+    background-color: unset;
   }
 }
