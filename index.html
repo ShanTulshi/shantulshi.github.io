@@ -29,7 +29,7 @@
             if(body.style.background) {
                 body.style.background="";
             } else {
-                body.style.background="no-repeat center/cover url('https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif')"
+                body.style.background="url('https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif')"
             }
         }
         (() => {
@@ -37,6 +37,7 @@
             mainContent.insertBefore(
                 Object.assign(document.createElement('a'), {
                     innerHTML: '<h1>👋 hello there</h1>',
+                    tabindex: 0,
                     onclick: onHello,
                 }), mainContent.firstChild);
         })();

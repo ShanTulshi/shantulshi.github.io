@@ -1,4 +1,4 @@
-html {
+html,.main {
   --background-color: white;
   --text-color: black;
   --link-color: blue;
@@ -8,7 +8,7 @@ html {
 }
 
 @media (prefers-color-scheme: dark) {
-    html { 
+    html,.main { 
       --background-color: black;
       --text-color: white;
       --link-color: cornflowerblue;
@@ -28,6 +28,8 @@ body {
 }
 
 .main {
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 1.5em;
   max-width: 36em;
   display: flex;
