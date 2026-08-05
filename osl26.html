@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Outside Lands 2026 · Set Times</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    color-scheme:light dark;
+
+    --fog:#E4E8E9;
+    --paper:#fff;
+    --ink:#14222A;
+    --ink2:#5D6E77;
+    --ink3:#8B9AA1;
+    --rule:#C9D0D3;
+    --rule2:#E1E6E7;
+
+    --s-lands:#D8352B;
+    --s-twin:#E08A00;
+    --s-sutro:#1E7A57;
+    --s-pan:#6F45C0;
+    --s-soma:#0B62CE;
+    --s-dol:#CC2F77;
+    --s-dub:#0C8E9B;
+    --s-ck:#7E6248;
+
+    /* text laid on top of a stage-coloured block */
+    --onpick:#fff;
+    /* how much stage colour bleeds into an unpicked block, and its edge weight */
+    --tint:0%;
+    --edge:45%;
+    --stripe:rgba(255,255,255,.42);
+
+    --acc:var(--ink);          /* switched-on control */
+    --trackoff:#C4CCD0;
+    --bad:#B02A18;
+    --tight:#8A5A00;
+    --cast:20,34,42;           /* shadow tint */
+
+    --gut:52px;
+    --col:120px;
+    --ppm:1.28;
+  }
+
+  @media (prefers-color-scheme:dark){
+    :root{
+      --fog:#0D171D;
+      --paper:#16232B;
+      --ink:#E9EEF0;
+      --ink2:#95A7AF;
+      --ink3:#6E828B;
+      --rule:#2D3E47;
+      --rule2:#243239;
+
+      /* lifted so they hold their identity against a dark ground */
+      --s-lands:#FF6E60;
+      --s-twin:#F3B03C;
+      --s-sutro:#48BE90;
+      --s-pan:#A98BF0;
+      --s-soma:#61A5F7;
+      --s-dol:#F26FA8;
+      --s-dub:#43C7D4;
+      --s-ck:#C3A48A;
+
+      --onpick:#0D171D;
+      --tint:14%;
+      --edge:55%;
+      --stripe:rgba(0,0,0,.34);
+
+      --acc:#61A5F7;
+      --trackoff:#3A4C56;
+      --bad:#FF8073;
+      --tight:#E5AF45;
+      --cast:0,0,0;
+    }
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--fog);
+    color:var(--ink);
+    font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:15px;
+    line-height:1.4;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 0 56px}
+
+  /* ---------- masthead ---------- */
+  .mast{
+    padding:18px 16px 12px;
+    border-bottom:1px solid var(--rule);
+    background:var(--paper);
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink2);margin:0 0 6px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(26px,7.5vw,36px);
+    font-weight:800;
+    font-stretch:118%;
+    letter-spacing:-.02em;
+    line-height:.98;
+    text-transform:uppercase;
+  }
+  h1 .yr{display:block;color:var(--ink2);font-weight:500;font-stretch:100%;font-size:.42em;letter-spacing:.16em;margin-top:7px}
+
+  /* ---------- controls ---------- */
+  .bar{
+    position:sticky;top:0;z-index:40;
+    background:var(--paper);
+    border-bottom:1px solid var(--rule);
+    box-shadow:0 1px 0 rgba(var(--cast),.04), 0 6px 14px -12px rgba(var(--cast),.5);
+  }
+  .days{display:flex;gap:0;padding:0 8px}
+  .day{
+    flex:1;appearance:none;border:0;background:none;cursor:pointer;
+    padding:11px 4px 9px;
+    font-family:inherit;font-size:13px;font-weight:700;font-stretch:112%;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);
+    border-bottom:3px solid transparent;
+  }
+  .day .dnum{display:block;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:10.5px;letter-spacing:.08em;opacity:.75;margin-top:2px}
+  .day[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+  .day:focus-visible{outline:2px solid var(--s-soma);outline-offset:-3px}
+
+  .tools{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 14px 10px;border-top:1px solid var(--rule2);
+  }
+  .toggle{
+    display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+    font-size:13.5px;font-weight:600;user-select:none;
+  }
+  .toggle input{position:absolute;opacity:0;width:0;height:0}
+  .track{
+    width:40px;height:23px;border-radius:99px;background:var(--trackoff);
+    position:relative;transition:background .16s ease;flex:none;
+  }
+  .track::after{
+    content:"";position:absolute;top:2.5px;left:2.5px;width:18px;height:18px;
+    border-radius:50%;background:#fff;transition:transform .16s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,.28);
+  }
+  .toggle input:checked + .track{background:var(--acc)}
+  .toggle input:checked + .track::after{transform:translateX(17px)}
+  .toggle input:focus-visible + .track{outline:2px solid var(--s-soma);outline-offset:2px}
+  .count{
+    margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    letter-spacing:.06em;color:var(--ink2);text-transform:uppercase;white-space:nowrap;
+  }
+
+  /* ---------- hint ---------- */
+  .hint{
+    margin:14px 15px 0;font-size:12px;color:var(--ink2);
+    font-family:"IBM Plex Mono",monospace;letter-spacing:.02em;
+  }
+
+  /* ---------- grid ---------- */
+  .sched{position:relative;margin:12px 0 0}
+
+  /* The header row sits OUTSIDE the horizontal scroller so it can stick to the
+     viewport; its offset is synced to the grid's scrollLeft in JS. */
+  .stagebar{
+    position:sticky;top:var(--barh,96px);z-index:30;
+    display:flex;background:var(--paper);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    box-shadow:0 7px 12px -12px rgba(var(--cast),.6);
+  }
+  .sb-gut{
+    flex:none;width:var(--gut);background:var(--paper);
+    border-right:1px solid var(--rule);z-index:2;
+  }
+  .sb-track{flex:1;overflow:hidden;position:relative}
+  .sb-inner{display:flex;will-change:transform}
+  .sb-cell{
+    flex:none;width:var(--col);height:40px;
+    border-right:1px solid var(--rule2);
+    display:flex;flex-direction:column;justify-content:center;padding:0 8px;
+  }
+  .sb-cell:last-child{border-right:0}
+  .sb-cell .nm{
+    font-size:11.5px;font-weight:800;font-stretch:112%;letter-spacing:.03em;
+    text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .sb-cell .ln{height:3px;border-radius:2px;margin-top:4px;width:26px}
+
+  .gridwrap{
+    background:var(--paper);
+    border-bottom:1px solid var(--rule);
+    overflow-x:auto;overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+  }
+  .grid{position:relative;display:flex;min-width:min-content}
+
+  .gutter{
+    position:sticky;left:0;z-index:20;flex:none;width:var(--gut);
+    background:var(--paper);border-right:1px solid var(--rule);
+  }
+  .gbody{position:relative}
+  .tick{
+    position:absolute;left:0;right:0;
+    font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink2);
+    padding-left:6px;letter-spacing:.02em;
+    transform:translateY(-.55em);
+  }
+
+  .cols{display:flex;flex:none}
+  .col{flex:none;width:var(--col);border-right:1px solid var(--rule2)}
+  .col:last-child{border-right:0}
+
+  .lane{position:relative}
+  .hr{position:absolute;left:0;right:0;height:1px;background:var(--rule2)}
+  .hr.half{background:linear-gradient(to right,var(--rule2) 50%,transparent 0);background-size:5px 1px}
+
+  .set{
+    position:absolute;
+    border-radius:5px;
+    padding:4px 6px;
+    overflow:hidden;
+    cursor:pointer;
+    background:color-mix(in srgb, var(--c) var(--tint), var(--paper));
+    border:1px solid color-mix(in srgb, var(--c) var(--edge), transparent);
+    color:var(--ink2);
+    display:flex;flex-direction:column;gap:1px;
+    transition:transform .1s ease;
+  }
+  .set:active{transform:scale(.975)}
+  .set:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+  .set .t{
+    font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.01em;
+    opacity:.85;white-space:nowrap;
+  }
+  .set .n{
+    font-size:11.5px;font-weight:700;font-stretch:108%;line-height:1.12;
+    overflow:hidden;
+  }
+  .set.tiny .n{font-size:10.5px}
+  .set.tiny .t{display:none}
+
+  .set.pick{
+    background:var(--c);border-color:var(--c);color:var(--onpick);
+    box-shadow:0 1px 0 rgba(var(--cast),.14);
+  }
+  .set.pick .t{opacity:.9}
+  .set.clash::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(-45deg,var(--stripe) 0 3px,transparent 3px 8px);
+  }
+  .set .flag{
+    position:absolute;top:2px;right:3px;font-size:10px;line-height:1;
+  }
+
+  .now{position:absolute;left:0;right:0;height:2px;background:var(--ink);z-index:12}
+  .now::before{content:"";position:absolute;left:0;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+
+  /* ---------- route ---------- */
+  .route{margin:22px 14px 0}
+  .route h2{
+    margin:0 0 10px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+    font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink2);
+  }
+  .stop{
+    display:flex;gap:11px;align-items:flex-start;
+    background:var(--paper);border:1px solid var(--rule);border-left-width:4px;
+    padding:9px 11px;
+  }
+  .stop .when{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink2);
+    white-space:nowrap;padding-top:2px;min-width:64px;
+  }
+  .stop .who{font-weight:700;font-size:14.5px;font-stretch:106%;line-height:1.2}
+  .stop .where{font-size:11.5px;color:var(--ink2);margin-top:1px}
+  .gap{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink2);
+    padding:5px 0 5px 14px;position:relative;
+  }
+  .gap::before{
+    content:"";position:absolute;left:5px;top:0;bottom:0;width:1px;
+    background:repeating-linear-gradient(to bottom,var(--rule) 0 3px,transparent 3px 7px);
+  }
+  .gap.bad{color:var(--bad);font-weight:600}
+  .gap.tight{color:var(--tight);font-weight:600}
+  .empty{
+    background:var(--paper);border:1px dashed var(--rule);padding:16px;
+    text-align:center;color:var(--ink2);font-size:13.5px;
+  }
+
+  .foot{
+    margin:26px 15px 0;padding-top:14px;border-top:1px solid var(--rule);
+    font-size:11.5px;color:var(--ink2);line-height:1.55;
+    font-family:"IBM Plex Mono",monospace;
+  }
+  .foot a{color:var(--ink)}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media (min-width:620px){ :root{--col:135px;--gut:58px;--ppm:1.4} }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow">Golden Gate Park · Aug 7–9</p>
+    <h1>Outside<br>Lands<span class="yr">Set times 2026</span></h1>
+  </header>
+
+  <div class="bar">
+    <div class="days" role="tablist" id="days"></div>
+    <div class="tools">
+      <label class="toggle">
+        <input type="checkbox" id="onlyMine">
+        <span class="track"></span>
+        <span>Only my picks</span>
+      </label>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+
+  <p class="hint">Tap any set to add or drop it. Swipe the grid sideways for more stages.</p>
+  <div class="sched">
+    <div class="stagebar" id="stagebar">
+      <div class="sb-gut"></div>
+      <div class="sb-track"><div class="sb-inner" id="sbInner"></div></div>
+    </div>
+    <div class="gridwrap" id="gridwrap"></div>
+  </div>
+  <section class="route" id="route"></section>
+
+  <p class="foot">
+    Times from the published 2026 set-time grid. Stages shift by a few minutes on the day — check the
+    <a href="https://sfoutsidelands.com/schedule/">official schedule</a> or the festival app before you commit to a walk.
+  </p>
+</div>
+
+<script>
+/* ------------------------------------------------------------------ data */
+const STAGES = [
+  ["Lands End","var(--s-lands)"],
+  ["Twin Peaks","var(--s-twin)"],
+  ["Sutro","var(--s-sutro)"],
+  ["Panhandle","var(--s-pan)"],
+  ["SOMA","var(--s-soma)"],
+  ["Dolores'","var(--s-dol)"],
+  ["Duboce Triangle","var(--s-dub)"],
+  ["Cocktail Magic","var(--s-ck)"]
+];
+const DAYS = [
+  {key:"fri",label:"Fri",num:"Aug 7"},
+  {key:"sat",label:"Sat",num:"Aug 8"},
+  {key:"sun",label:"Sun",num:"Aug 9"}
+];
+
+// [name, stage, startMinutes, endMinutes]  (minutes from midnight)
+const m = (h,mi)=>h*60+mi;
+const SCHEDULE = {
+fri:[
+ ["Faouzia","Lands End",m(12,5),m(12,50)],
+ ["Grace Ives","Lands End",m(13,20),m(14,5)],
+ ["Durand Bernarr","Lands End",m(14,35),m(15,25)],
+ ["Wet Leg","Lands End",m(15,55),m(16,45)],
+ ["GloRilla","Lands End",m(17,15),m(18,15)],
+ ["Labrinth","Lands End",m(18,30),m(19,40)],
+ ["Charli xcx","Lands End",m(20,40),m(22,0)],
+
+ ["Nezza","Twin Peaks",m(12,35),m(13,20)],
+ ["Kerala Dust","Twin Peaks",m(14,5),m(14,50)],
+ ["Alleycvt","Twin Peaks",m(15,35),m(16,25)],
+ ["Tinashe","Twin Peaks",m(17,10),m(18,0)],
+ ["Clipse","Twin Peaks",m(18,45),m(19,35)],
+ ["GRiZTRONICS","Twin Peaks",m(20,25),m(21,50)],
+
+ ["Bad Nerves","Sutro",m(12,25),m(13,10)],
+ ["Die Spitz","Sutro",m(13,40),m(14,25)],
+ ["The Story So Far","Sutro",m(14,55),m(15,40)],
+ ["Sierra Ferrell","Sutro",m(16,10),m(17,10)],
+ ["Geese","Sutro",m(17,50),m(18,50)],
+ ["Turnstile","Sutro",m(19,20),m(20,20)],
+ ["Modest Mouse","Sutro",m(20,50),m(21,50)],
+
+ ["Dani Satin & Always Halloways","Panhandle",m(12,0),m(12,30)],
+ ["Chezile","Panhandle",m(13,20),m(14,0)],
+ ["Sawyer Hill","Panhandle",m(14,50),m(15,30)],
+ ["Billie Marten","Panhandle",m(16,25),m(17,5)],
+ ["Goldie Boutilier","Panhandle",m(18,0),m(18,40)],
+ ["Dylan Brady","Panhandle",m(19,35),m(20,20)],
+
+ ["Vertigo","SOMA",m(12,0),m(12,55)],
+ ["Luke Alessi","SOMA",m(12,55),m(14,25)],
+ ["Tobiahs","SOMA",m(14,25),m(15,55)],
+ ["MPH","SOMA",m(15,55),m(17,25)],
+ ["K/ki","SOMA",m(17,25),m(18,55)],
+ ["¥ØU$UK€ ¥UK1MAT$U","SOMA",m(18,55),m(20,25)],
+ ["Odd Mob & Omnom: Hyperbeam","SOMA",m(20,25),m(21,55)],
+
+ ["DJ Erinyes","Dolores'",m(12,30),m(13,15)],
+ ["DJ Dolomedes","Dolores'",m(13,15),m(14,0)],
+ ["Pink Stiletto","Dolores'",m(14,0),m(14,30)],
+ ["DJ Starr Noir","Dolores'",m(14,30),m(15,20)],
+ ["Hot Goth Freak Show","Dolores'",m(15,20),m(15,50)],
+ ["Soltera","Dolores'",m(15,50),m(16,35)],
+ ["DJ Hopeless & Pole Show","Dolores'",m(16,35),m(17,20)],
+ ["Ms. Boan","Dolores'",m(17,20),m(18,5)],
+ ["Hot Goth Freak Show","Dolores'",m(18,5),m(18,35)],
+ ["Light Asylum","Dolores'",m(18,45),m(19,30)],
+ ["Romy (DJ set)","Dolores'",m(19,30),m(20,30)],
+
+ ["Nezza","Duboce Triangle",m(14,5),m(14,35)],
+ ["Chezile","Duboce Triangle",m(15,25),m(15,55)],
+ ["Luke Alessi","Duboce Triangle",m(16,45),m(17,15)],
+ ["Alleycvt","Duboce Triangle",m(18,15),m(18,45)],
+ ["Tobiahs","Duboce Triangle",m(19,55),m(20,40)],
+
+ ["Bingo Loco","Cocktail Magic",m(12,30),m(13,15)],
+ ["Bingo Loco","Cocktail Magic",m(13,40),m(14,25)],
+ ["Bingo Loco","Cocktail Magic",m(14,50),m(15,35)],
+ ["Open Mic: Rainbow Girls","Cocktail Magic",m(16,5),m(16,50)],
+ ["Bootie: Diva Pop (DJ Tyme)","Cocktail Magic",m(17,5),m(18,5)],
+ ["The Emo Night Tour","Cocktail Magic",m(18,20),m(19,20)]
+],
+sat:[
+ ["Bandalos Chinos","Lands End",m(12,10),m(12,55)],
+ ["Haute & Freddy","Lands End",m(13,25),m(14,10)],
+ ["Audrey Hobert","Lands End",m(14,40),m(15,30)],
+ ["Lucy Dacus","Lands End",m(16,0),m(16,50)],
+ ["Ethel Cain","Lands End",m(17,20),m(18,20)],
+ ["Djo","Lands End",m(18,50),m(19,50)],
+ ["The Strokes","Lands End",m(20,35),m(21,55)],
+
+ ["Red Leather","Twin Peaks",m(12,30),m(13,10)],
+ ["After","Twin Peaks",m(13,55),m(14,35)],
+ ["Łaszewo","Twin Peaks",m(15,10),m(16,0)],
+ ["Malcolm Todd","Twin Peaks",m(16,45),m(17,45)],
+ ["Dijon","Twin Peaks",m(18,30),m(19,20)],
+ ["The xx","Twin Peaks",m(20,10),m(21,25)],
+
+ ["Rio Kosta","Sutro",m(12,35),m(13,20)],
+ ["Wunderhorse","Sutro",m(13,50),m(14,35)],
+ ["Sienna Spiro","Sutro",m(15,5),m(15,50)],
+ ["Yard Act","Sutro",m(16,20),m(17,5)],
+ ["Snow Strippers","Sutro",m(17,35),m(18,20)],
+ ["it's murph","Sutro",m(18,50),m(20,0)],
+ ["PinkPantheress","Sutro",m(20,45),m(21,45)],
+
+ ["Ryman","Panhandle",m(12,0),m(12,30)],
+ ["Racing Mount Pleasant","Panhandle",m(13,10),m(13,50)],
+ ["Ally Evenson","Panhandle",m(14,35),m(15,5)],
+ ["Automatic","Panhandle",m(16,0),m(16,40)],
+ ["Silvana Estrada","Panhandle",m(17,45),m(18,25)],
+ ["DJ Trixie Mattel","Panhandle",m(19,20),m(20,5)],
+
+ ["Bad Juuju","SOMA",m(12,35),m(13,55)],
+ ["I-800 Girls","SOMA",m(13,55),m(15,25)],
+ ["Camoufly","SOMA",m(15,25),m(16,55)],
+ ["Sultan + Shepard","SOMA",m(16,55),m(18,25)],
+ ["Ben Böhmer","SOMA",m(18,40),m(20,10)],
+ ["Lane 8","SOMA",m(20,25),m(21,55)],
+
+ ["Oasis DJ: Beverly Chills","Dolores'",m(12,30),m(13,15)],
+ ["Out Tonight (Darcy Drollinger)","Dolores'",m(13,15),m(14,15)],
+ ["Reparations w/ Nick Jizz","Dolores'",m(15,15),m(16,45)],
+ ["Oasis DJ: Jon on the Prize","Dolores'",m(16,45),m(17,45)],
+ ["Princess w/ Tito Soto","Dolores'",m(17,45),m(19,15)],
+ ["Princess DJ: DJ Vrok","Dolores'",m(19,15),m(20,30)],
+
+ ["Surprise Guest","Duboce Triangle",m(12,15),m(13,45)],
+ ["Bandalos Chinos","Duboce Triangle",m(14,10),m(14,40)],
+ ["Racing Mount Pleasant","Duboce Triangle",m(15,30),m(16,0)],
+ ["Rio Kosta (DJ set)","Duboce Triangle",m(16,50),m(17,20)],
+ ["Łaszewo","Duboce Triangle",m(18,20),m(18,50)],
+ ["Bad Juuju","Duboce Triangle",m(19,50),m(20,35)],
+
+ ["Bingo Loco","Cocktail Magic",m(12,30),m(13,15)],
+ ["Bingo Loco","Cocktail Magic",m(13,40),m(14,25)],
+ ["Bingo Loco","Cocktail Magic",m(14,50),m(15,35)],
+ ["Open Mic: Rainbow Girls","Cocktail Magic",m(16,5),m(16,50)],
+ ["Bootie: Hip Hop Fuego","Cocktail Magic",m(17,5),m(18,5)],
+ ["Electric Feels","Cocktail Magic",m(18,20),m(19,20)]
+],
+sun:[
+ ["SF Gay Men's Chorus","Lands End",m(12,0),m(12,40)],
+ ["Sports","Lands End",m(13,10),m(13,55)],
+ ["Balu Brigada","Lands End",m(14,25),m(15,15)],
+ ["Jade","Lands End",m(15,45),m(16,45)],
+ ["Disco Lines","Lands End",m(17,15),m(18,15)],
+ ["Empire Of The Sun","Lands End",m(18,45),m(19,45)],
+ ["RÜFÜS DU SOL","Lands End",m(20,25),m(21,55)],
+
+ ["Magnus Ferrell","Twin Peaks",m(12,45),m(13,25)],
+ ["Sosocamo","Twin Peaks",m(14,10),m(14,55)],
+ ["Destin Conrad","Twin Peaks",m(15,40),m(16,30)],
+ ["KWN","Twin Peaks",m(17,15),m(18,5)],
+ ["Mariah the Scientist","Twin Peaks",m(18,50),m(19,50)],
+ ["Baby Keem","Twin Peaks",m(20,40),m(21,55)],
+
+ ["Death Cab for Cutie","Sutro",m(12,40),m(13,30)],
+ ["Marlon Funaki","Sutro",m(13,50),m(14,30)],
+ ["Momma","Sutro",m(15,0),m(15,45)],
+ ["Kingfishr","Sutro",m(16,15),m(17,5)],
+ ["The Temper Trap","Sutro",m(17,35),m(18,25)],
+ ["Not for Radio","Sutro",m(19,5),m(19,55)],
+ ["Death Cab for Cutie","Sutro",m(20,25),m(21,40)],
+
+ ["Cruz Beckham","Panhandle",m(12,0),m(12,40)],
+ ["Day We Ran","Panhandle",m(13,25),m(14,5)],
+ ["Amble","Panhandle",m(14,55),m(15,35)],
+ ["Night Tapes","Panhandle",m(16,30),m(17,10)],
+ ["Silvana Estrada","Panhandle",m(17,45),m(18,25)],
+ ["Infinity Song","Panhandle",m(18,5),m(18,45)],
+ ["Frost Children","Panhandle",m(19,50),m(20,35)],
+
+ ["Etari","SOMA",m(12,5),m(13,35)],
+ ["X Club.","SOMA",m(13,35),m(15,10)],
+ ["Carlita","SOMA",m(15,10),m(16,45)],
+ ["Boys Noize","SOMA",m(16,45),m(18,20)],
+ ["Miss Monique","SOMA",m(18,20),m(19,55)],
+ ["Boris Brejcha","SOMA",m(19,55),m(21,55)],
+
+ ["Charles Hawthorne","Dolores'",m(12,45),m(14,25)],
+ ["Mark O'Brien","Dolores'",m(14,25),m(15,45)],
+ ["Grace Towers & Friends","Dolores'",m(15,45),m(16,5)],
+ ["Stanley Frank Sensation","Dolores'",m(16,5),m(17,5)],
+ ["Beya","Dolores'",m(17,5),m(18,5)],
+ ["Grace Towers & Friends","Dolores'",m(18,5),m(18,25)],
+ ["Elaine & Robin","Dolores'",m(18,25),m(19,25)],
+ ["DJ Minx","Dolores'",m(19,25),m(20,25)],
+
+ ["Britton","Duboce Triangle",m(14,5),m(14,35)],
+ ["Day We Ran","Duboce Triangle",m(15,25),m(15,55)],
+ ["Frost Children (DJ set)","Duboce Triangle",m(16,45),m(17,30)],
+ ["Marlon Funaki","Duboce Triangle",m(18,15),m(18,45)],
+ ["Surprise Guest","Duboce Triangle",m(19,45),m(20,45)],
+
+ ["Bingo Loco","Cocktail Magic",m(12,30),m(13,15)],
+ ["Bingo Loco","Cocktail Magic",m(13,40),m(14,25)],
+ ["Bingo Loco","Cocktail Magic",m(14,50),m(15,35)],
+ ["Open Mic: Rainbow Girls","Cocktail Magic",m(16,5),m(16,50)],
+ ["Aidan Corcoran","Cocktail Magic",m(17,15),m(17,45)],
+ ["Help Me Lose My Mind: MPH","Cocktail Magic",m(18,0),m(19,0)]
+]
+};
+
+const WANTED = [
+ ["fri","Vertigo","SOMA"],["fri","MPH","SOMA"],["fri","Tinashe","Twin Peaks"],
+ ["fri","Labrinth","Lands End"],["fri","¥ØU$UK€ ¥UK1MAT$U","SOMA"],["fri","Charli xcx","Lands End"],
+ ["fri","GRiZTRONICS","Twin Peaks"],
+ ["sat","Łaszewo","Twin Peaks"],["sat","Malcolm Todd","Twin Peaks"],["sat","Łaszewo","Duboce Triangle"],
+ ["sat","it's murph","Sutro"],["sat","Lane 8","SOMA"],["sat","The Strokes","Lands End"],
+ ["sun","Balu Brigada","Lands End"],["sun","Carlita","SOMA"],["sun","Boys Noize","SOMA"],
+ ["sun","Disco Lines","Lands End"],["sun","Empire Of The Sun","Lands End"],["sun","RÜFÜS DU SOL","Lands End"]
+];
+
+/* ------------------------------------------------------------------ state */
+const DAY_START = m(11,55), DAY_END = m(22,5);
+const PPM = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ppm'));
+const STAGE_COLOR = Object.fromEntries(STAGES);
+
+const id = (d,s)=> d+"|"+s[1]+"|"+s[2];   // day | stage | start — unique per slot
+
+const DEFAULT_PICKS = WANTED
+  .map(([d,n,st]) => { const s = SCHEDULE[d].find(x=>x[0]===n && x[1]===st); return s ? id(d,s) : null; })
+  .filter(Boolean);
+
+let picks = new Set(DEFAULT_PICKS);
+let day = DAYS[0].key;
+let onlyMine = false;
+const fmt = t => {
+  let h = Math.floor(t/60), mi = t%60;
+  const ap = h>=12 ? "p":"a"; let hh = h%12; if(hh===0) hh=12;
+  return hh + (mi? ":"+String(mi).padStart(2,"0") : "") + ap;
+};
+
+// Picks are saved locally, so a saved set would otherwise mask any act added to
+// WANTED later. Bumping SEED folds the current defaults into the saved set once.
+const SEED = 2;
+
+/* Share links carry the picks as one base32 bitmask per day, indexed against
+   SCHEDULE order — short enough to paste into a text message. */
+const B32 = "0123456789abcdefghijklmnopqrstuv";
+
+function encodePicks(set){
+  return DAYS.map(d => {
+    let out = "";
+    const sets = SCHEDULE[d.key];
+    for(let i=0; i<sets.length; i+=5){
+      let v = 0;
+      for(let j=0; j<5; j++) v = v*2 + (sets[i+j] && set.has(id(d.key,sets[i+j])) ? 1 : 0);
+      out += B32[v];
+    }
+    return out.replace(/0+$/,"");
+  }).join(".");
+}
+
+function decodePicks(str){
+  const parts = String(str).split(".");
+  const out = new Set();
+  DAYS.forEach((d,di) => {
+    const chunk = parts[di] || "";
+    SCHEDULE[d.key].forEach((s,i) => {
+      const v = B32.indexOf(chunk[Math.floor(i/5)] || "");
+      if(v >= 0 && (v >> (4 - i%5)) & 1) out.add(id(d.key,s));
+    });
+  });
+  return out;
+}
+
+function sharedPicks(){
+  const mat = /[#&?]p=([0-9a-v.]*)/.exec(location.hash + "&" + location.search);
+  return mat ? decodePicks(mat[1]) : null;
+}
+
+function load(){
+  let stored = null, seen = 0;
+  try{
+    const raw = localStorage.getItem("ol26:picks");
+    if(raw){ const a = JSON.parse(raw); if(Array.isArray(a)) stored = a; }
+    seen = parseInt(localStorage.getItem("ol26:seed"),10) || 0;
+  }catch(e){ /* first run, or storage blocked */ }
+
+  // A shared link seeds a first-time visitor, but never clobbers picks someone
+  // has already made on this device.
+  if(stored){
+    picks = new Set(stored);
+    if(seen < SEED) DEFAULT_PICKS.forEach(k=>picks.add(k));
+  }else{
+    const shared = sharedPicks();
+    if(shared) picks = shared;
+  }
+  save();
+}
+
+function save(){
+  try{
+    localStorage.setItem("ol26:picks", JSON.stringify([...picks]));
+    localStorage.setItem("ol26:seed", String(SEED));
+  }catch(e){}
+  history.replaceState(null, "", location.pathname + "#p=" + encodePicks(picks));
+}
+
+/* -------------------------------------------------------------- analysis */
+function myDay(d){
+  return SCHEDULE[d].filter(s=>picks.has(id(d,s))).sort((a,b)=>a[2]-b[2]);
+}
+function clashSet(d){
+  const mine = myDay(d), out = new Set();
+  for(let i=0;i<mine.length;i++)
+    for(let j=i+1;j<mine.length;j++)
+      if(mine[i][2] < mine[j][3] && mine[j][2] < mine[i][3]){
+        out.add(id(d,mine[i])); out.add(id(d,mine[j]));
+      }
+  return out;
+}
+
+/* ---------------------------------------------------------------- render */
+function renderDays(){
+  const el = document.getElementById("days");
+  el.innerHTML = DAYS.map(d=>
+    `<button class="day" role="tab" data-d="${d.key}" aria-selected="${d.key===day}">
+       ${d.label}<span class="dnum">${d.num}</span></button>`).join("");
+  el.querySelectorAll(".day").forEach(b=>b.onclick=()=>{ day=b.dataset.d; renderAll(); });
+}
+
+function renderGrid(){
+  const wrap = document.getElementById("gridwrap");
+  const ppm = PPM();
+  const H = (DAY_END-DAY_START)*ppm;
+  const clash = clashSet(day);
+
+  const active = STAGES.filter(([name])=>
+    !onlyMine || SCHEDULE[day].some(s=>s[1]===name && picks.has(id(day,s))));
+
+  let ticks = "";
+  for(let t=m(12,0); t<=m(22,0); t+=30){
+    const y = (t-DAY_START)*ppm;
+    if(t%60===0) ticks += `<div class="tick" style="top:${y}px">${fmt(t)}</div>`;
+  }
+  let rules = "";
+  for(let t=m(12,0); t<=m(22,0); t+=30){
+    const y = (t-DAY_START)*ppm;
+    rules += `<div class="hr ${t%60?'half':''}" style="top:${y}px"></div>`;
+  }
+
+  // live marker, only while that day is actually running
+  const nowD = new Date(), dayIdx = DAYS.findIndex(d=>d.key===day);
+  const nowMin = nowD.getHours()*60 + nowD.getMinutes();
+  const isToday = nowD.getFullYear()===2026 && nowD.getMonth()===7 && nowD.getDate()===(7+dayIdx);
+  if(isToday && nowMin>DAY_START && nowMin<DAY_END)
+    rules += `<div class="now" style="top:${(nowMin-DAY_START)*ppm}px"></div>`;
+
+  const cols = active.map(([name,color])=>{
+    let sets = SCHEDULE[day].filter(s=>s[1]===name);
+    if(onlyMine) sets = sets.filter(s=>picks.has(id(day,s)));
+    sets.sort((a,b)=>a[2]-b[2]);
+
+    // lane packing so accidental overlaps stay legible
+    const lanes = [];
+    const laneOf = sets.map(s=>{
+      let k = lanes.findIndex(end=>end<=s[2]);
+      if(k===-1){ k = lanes.length; lanes.push(0); }
+      lanes[k]=s[3]; return k;
+    });
+    const N = Math.max(1,lanes.length);
+
+    const blocks = sets.map((s,i)=>{
+      const top=(s[2]-DAY_START)*ppm, h=(s[3]-s[2])*ppm-2;
+      const w = 100/N, left = laneOf[i]*w;
+      const key = id(day,s);
+      const on = picks.has(key), bad = clash.has(key);
+      return `<button class="set ${on?'pick':''} ${bad?'clash':''} ${h<30?'tiny':''}"
+        style="top:${top}px;height:${Math.max(16,h)}px;left:calc(${left}% + 3px);width:calc(${w}% - 6px);--c:${color}"
+        data-k="${key.replace(/"/g,'&quot;')}"
+        aria-pressed="${on}"
+        title="${s[0]} · ${name} · ${fmt(s[2])}–${fmt(s[3])}">
+        ${bad?'<span class="flag">⚠</span>':''}
+        <span class="t">${fmt(s[2])}–${fmt(s[3])}</span>
+        <span class="n">${s[0]}</span></button>`;
+    }).join("");
+
+    return `<div class="col">
+      <div class="lane" style="height:${H}px">${rules}${blocks}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("sbInner").innerHTML = active.map(([name,color])=>
+    `<div class="sb-cell"><span class="nm">${name}</span>
+       <span class="ln" style="background:${color}"></span></div>`).join("");
+
+  wrap.innerHTML = `<div class="grid">
+      <div class="gutter"><div class="gbody" style="height:${H}px">${ticks}</div></div>
+      <div class="cols">${cols || '<div style="padding:26px 18px;color:var(--ink2);font-size:13.5px">No picks on this day yet — switch off “Only my picks” and tap a few sets.</div>'}</div>
+    </div>`;
+
+  syncHead();
+
+  wrap.querySelectorAll(".set").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    picks.has(k) ? picks.delete(k) : picks.add(k);
+    save(); renderAll();
+  });
+}
+
+function renderRoute(){
+  const el = document.getElementById("route");
+  const mine = myDay(day);
+  const label = DAYS.find(d=>d.key===day).label;
+  if(!mine.length){
+    el.innerHTML = `<h2>Your route · ${label}</h2><div class="empty">Nothing picked for this day.</div>`;
+    return;
+  }
+  let html = `<h2>Your route · ${label}</h2>`;
+  mine.forEach((s,i)=>{
+    html += `<div class="stop" style="border-left-color:${STAGE_COLOR[s[1]]}">
+      <span class="when">${fmt(s[2])}–${fmt(s[3])}</span>
+      <span><span class="who">${s[0]}</span><span class="where">${s[1]}</span></span></div>`;
+    const n = mine[i+1];
+    if(n){
+      const gap = n[2]-s[3];
+      let cls="", txt;
+      if(gap<0){ cls="bad"; txt=`overlaps by ${-gap} min`; }
+      else if(s[1]!==n[1] && gap<=15){ cls="tight"; txt=`${gap} min to cross the park`; }
+      else if(s[1]===n[1]) txt = gap===0 ? "straight into the next set" : `${gap} min, same stage`;
+      else txt = `${gap} min to walk to ${n[1]}`;
+      html += `<div class="gap ${cls}">↓ ${txt}</div>`;
+    }
+  });
+  el.innerHTML = html;
+}
+
+function renderAll(){
+  renderDays();
+  document.getElementById("count").textContent = picks.size + " picked · " + myDay(day).length + " today";
+  renderGrid(); renderRoute();
+}
+
+/* --------------------------------------------- sticky stage-header plumbing */
+const gw = document.getElementById("gridwrap");
+const sbInner = document.getElementById("sbInner");
+
+// Keep the header row aligned with however far the grid is scrolled sideways.
+function syncHead(){ sbInner.style.transform = `translateX(${-gw.scrollLeft}px)`; }
+gw.addEventListener("scroll", () => requestAnimationFrame(syncHead), {passive:true});
+
+// The day tabs are sticky at top:0, so the stage bar has to sit exactly below them.
+// The bar's height isn't knowable up front — the day buttons are rendered later and
+// the webfont reflows them — so watch it instead of measuring once.
+const bar = document.querySelector(".bar");
+function measureBar(){
+  const h = Math.round(bar.getBoundingClientRect().height);
+  if(h) document.documentElement.style.setProperty("--barh", h + "px");
+}
+if(window.ResizeObserver) new ResizeObserver(measureBar).observe(bar);
+addEventListener("resize", () => { measureBar(); syncHead(); });
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(measureBar);
+
+document.getElementById("onlyMine").onchange = e => { onlyMine = e.target.checked; renderGrid(); };
+load(); renderAll(); measureBar();
+</script>
