@@ -133,12 +133,12 @@
   .day:focus-visible{outline:2px solid var(--s-soma);outline-offset:-3px}
 
   .tools{
-    display:flex;align-items:center;gap:10px;
-    padding:9px 14px 10px;border-top:1px solid var(--rule2);
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    padding:9px 13px 10px;border-top:1px solid var(--rule2);
   }
   .toggle{
     display:inline-flex;align-items:center;gap:9px;cursor:pointer;
-    font-size:13.5px;font-weight:600;user-select:none;
+    font-size:13.5px;font-weight:600;user-select:none;white-space:nowrap;
   }
   .toggle input{position:absolute;opacity:0;width:0;height:0}
   .track{
@@ -153,10 +153,42 @@
   .toggle input:checked + .track{background:var(--acc)}
   .toggle input:checked + .track::after{transform:translateX(17px)}
   .toggle input:focus-visible + .track{outline:2px solid var(--s-soma);outline-offset:2px}
+  /* Count and share button travel together, so a narrow bar wraps them as one
+     right-aligned group rather than orphaning the button. */
+  .meta{display:flex;align-items:center;gap:9px;margin-left:auto}
   .count{
-    margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;
     letter-spacing:.06em;color:var(--ink2);text-transform:uppercase;white-space:nowrap;
   }
+
+  .btn{
+    appearance:none;font-family:inherit;
+    font-size:12px;font-weight:700;font-stretch:106%;letter-spacing:.03em;
+    padding:6px 9px;border-radius:6px;cursor:pointer;white-space:nowrap;
+    background:var(--paper);color:var(--ink);border:1px solid var(--rule);
+  }
+  .btn:hover{border-color:var(--ink3)}
+  .btn:focus-visible{outline:2px solid var(--s-soma);outline-offset:2px}
+  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* ---------- shared-plan banner ---------- */
+  /* Shown when the URL carries someone else's picks. Nothing here is written to
+     storage — the visitor's own plan waits untouched behind it. */
+  .shared{display:none}
+  .shared.on{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    padding:10px 14px;
+    background:var(--paper);
+    border-bottom:1px solid var(--rule);
+    border-left:4px solid var(--s-soma);
+  }
+  .shared .sh-txt{display:flex;flex-direction:column;line-height:1.25}
+  .shared .sh-ttl{font-size:13px;font-weight:700;font-stretch:106%}
+  .shared .sh-sub{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    letter-spacing:.02em;color:var(--ink2);margin-top:2px;
+  }
+  .shared .sh-act{display:flex;gap:7px;margin-left:auto}
 
   /* ---------- hint ---------- */
   .hint{
@@ -320,8 +352,22 @@
         <span class="track"></span>
         <span>Only my picks</span>
       </label>
-      <span class="count" id="count"></span>
+      <span class="meta">
+        <span class="count" id="count"></span>
+        <button class="btn" id="share" type="button">Copy link</button>
+      </span>
     </div>
+  </div>
+
+  <div class="shared" id="sharedBar">
+    <span class="sh-txt">
+      <span class="sh-ttl">Viewing a shared plan</span>
+      <span class="sh-sub">Your own picks are untouched</span>
+    </span>
+    <span class="sh-act">
+      <button class="btn primary" id="adopt" type="button">Save as mine</button>
+      <button class="btn" id="discard" type="button">Back to mine</button>
+    </span>
   </div>
 
   <p class="hint">Tap any set to add or drop it. Swipe the grid sideways for more stages.</p>
@@ -568,7 +614,9 @@ const DEFAULT_PICKS = WANTED
   .map(([d,n,st]) => { const s = SCHEDULE[d].find(x=>x[0]===n && x[1]===st); return s ? id(d,s) : null; })
   .filter(Boolean);
 
-let picks = new Set(DEFAULT_PICKS);
+let picks = new Set(DEFAULT_PICKS);   // what's on screen
+let mine = null;                      // the visitor's own picks, parked while previewing a share
+let preview = false;
 let day = DAYS[0].key;
 let onlyMine = false;
 const fmt = t => {
@@ -616,6 +664,12 @@ function sharedPicks(){
   return mat ? decodePicks(mat[1]) : null;
 }
 
+/* A query param, not a hash: pasting a hash link while already on the page is a
+   same-document navigation, so the plan would never load. ?p= forces a real one. */
+function shareUrl(){
+  return location.origin + location.pathname + "?p=" + encodePicks(picks);
+}
+
 function load(){
   let stored = null, seen = 0;
   try{
@@ -624,24 +678,34 @@ function load(){
     seen = parseInt(localStorage.getItem("ol26:seed"),10) || 0;
   }catch(e){ /* first run, or storage blocked */ }
 
-  // A shared link seeds a first-time visitor, but never clobbers picks someone
-  // has already made on this device.
   if(stored){
     picks = new Set(stored);
     if(seen < SEED) DEFAULT_PICKS.forEach(k=>picks.add(k));
-  }else{
-    const shared = sharedPicks();
-    if(shared) picks = shared;
   }
   save();
+
+  // A shared link renders straight away, but only ever as a preview laid over
+  // the visitor's own plan — storage stays untouched until they hit "Save as
+  // mine". Edits made while previewing are scratch, and go nowhere.
+  const shared = sharedPicks();
+  if(shared){ mine = picks; picks = shared; preview = true; }
 }
 
 function save(){
+  if(preview) return;
   try{
     localStorage.setItem("ol26:picks", JSON.stringify([...picks]));
     localStorage.setItem("ol26:seed", String(SEED));
   }catch(e){}
-  history.replaceState(null, "", location.pathname + "#p=" + encodePicks(picks));
+}
+
+/* Leaving preview drops the ?p= so a reload lands on the visitor's own plan. */
+function exitPreview(keepShared){
+  if(!keepShared) picks = mine;
+  mine = null; preview = false;
+  history.replaceState(null, "", location.pathname);
+  save();
+  renderAll();
 }
 
 /* -------------------------------------------------------------- analysis */
@@ -776,6 +840,8 @@ function renderRoute(){
 function renderAll(){
   renderDays();
   document.getElementById("count").textContent = picks.size + " picked · " + myDay(day).length + " today";
+  document.getElementById("sharedBar").classList.toggle("on", preview);
+  document.getElementById("share").hidden = preview;
   renderGrid(); renderRoute();
 }
 
@@ -800,5 +866,46 @@ addEventListener("resize", () => { measureBar(); syncHead(); });
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(measureBar);
 
 document.getElementById("onlyMine").onchange = e => { onlyMine = e.target.checked; renderGrid(); };
+
+/* ------------------------------------------------------------------ share */
+// The URL only changes when the visitor asks for a link, so building a plan
+// doesn't churn history or hand out half-finished links.
+const shareBtn = document.getElementById("share");
+let shareTimer = 0;
+
+async function copyLink(){
+  const url = shareUrl();
+  try{
+    await navigator.clipboard.writeText(url);
+    return true;
+  }catch(e){
+    // clipboard API needs a secure context; fall back to a throwaway selection
+    try{
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      ta.setAttribute("readonly","");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta);
+      ta.select(); ta.setSelectionRange(0, url.length);
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return ok;
+    }catch(e2){ return false; }
+  }
+}
+
+shareBtn.onclick = async () => {
+  const ok = await copyLink();
+  // Last resort: hand over the link in a selectable box rather than writing it
+  // to the address bar, which would make a reload preview your own plan back.
+  if(!ok){ prompt("Copy this link:", shareUrl()); return; }
+  shareBtn.textContent = "Copied ✓";
+  clearTimeout(shareTimer);
+  shareTimer = setTimeout(() => { shareBtn.textContent = "Copy link"; }, 1800);
+};
+
+document.getElementById("adopt").onclick = () => exitPreview(true);
+document.getElementById("discard").onclick = () => exitPreview(false);
+
 load(); renderAll(); measureBar();
 </script>
