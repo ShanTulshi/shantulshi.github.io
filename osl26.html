@@ -614,10 +614,19 @@ const DEFAULT_PICKS = WANTED
   .map(([d,n,st]) => { const s = SCHEDULE[d].find(x=>x[0]===n && x[1]===st); return s ? id(d,s) : null; })
   .filter(Boolean);
 
+/* Which festival day it is right now, or null the rest of the year. DAYS runs
+   Fri–Sun from Aug 7 2026, so the index is just the date offset. */
+function todayKey(){
+  const n = new Date();
+  if(n.getFullYear() !== 2026 || n.getMonth() !== 7) return null;
+  const i = n.getDate() - 7;
+  return (i >= 0 && i < DAYS.length) ? DAYS[i].key : null;
+}
+
 let picks = new Set(DEFAULT_PICKS);   // what's on screen
 let mine = null;                      // the visitor's own picks, parked while previewing a share
 let preview = false;
-let day = DAYS[0].key;
+let day = todayKey() || DAYS[0].key;  // open on the day you're actually there
 let onlyMine = false;
 const fmt = t => {
   let h = Math.floor(t/60), mi = t%60;
@@ -752,10 +761,9 @@ function renderGrid(){
   }
 
   // live marker, only while that day is actually running
-  const nowD = new Date(), dayIdx = DAYS.findIndex(d=>d.key===day);
+  const nowD = new Date();
   const nowMin = nowD.getHours()*60 + nowD.getMinutes();
-  const isToday = nowD.getFullYear()===2026 && nowD.getMonth()===7 && nowD.getDate()===(7+dayIdx);
-  if(isToday && nowMin>DAY_START && nowMin<DAY_END)
+  if(todayKey()===day && nowMin>DAY_START && nowMin<DAY_END)
     rules += `<div class="now" style="top:${(nowMin-DAY_START)*ppm}px"></div>`;
 
   const cols = active.map(([name,color])=>{
