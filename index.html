@@ -1,52 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <title>shan's lil site</title>
-    <link rel="stylesheet" href="index.css" >
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="main">
-        <div class="big-name"><div class="name">Sha</div><div>nta</div><div>nu</div></div>
-        <div class="body-content">
-            <noscript><a href="https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif"><h1>👋 hello there</h1></a></noscript>
-            <p>my name is <span class="mi nombre" title="शंतनु तुळशीबागवाले">Shan</span> and I am a human being.</p>
-            <p>this is my website that I made for <span aria-label="shits" aria-hidden="true">💩</span> and <span aria-label="giggles" aria-hidden="true">🤭</span></p>
-            <p>you'll probably find these other links more interesting:</p>
-            <ul>
-                <li><a title="Resume" href="/static/resume.pdf">👨‍💻📄</a></li>
-                <li><a title="GitHub" href="https://github.com/ShanTulshi">🐙😸</a></li>
-                <li><a title="LinkedIn" href="https://linkedin.com/in/shantulshi">🔗📥</a></li>
-            </ul>
-        </div>
+      <div class="big-name">
+        <div class="name">Sha</div>
+        <div>nta</div>
+        <div>nu</div>
+      </div>
+      <div class="body-content">
+        <noscript
+          ><a
+            href="https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif"
+            ><h1>👋 hello there</h1></a
+          ></noscript
+        >
+        <p>
+          my name is
+          <span class="mi nombre" title="शंतनु तुळशीबागवाले">Shan</span> and I
+          am a human being.
+        </p>
+        <p>
+          this is my website that I made for
+          <span aria-label="shits" aria-hidden="true">💩</span> and
+          <span aria-label="giggles" aria-hidden="true">🤭</span>
+        </p>
+        <p>you'll probably find these other links more interesting:</p>
+        <ul>
+          <li><a title="Resume" href="/static/resume.pdf">👨‍💻📄</a></li>
+          <li>
+            <a title="GitHub" href="https://github.com/ShanTulshi">🐙😸</a>
+          </li>
+          <li>
+            <a title="LinkedIn" href="https://linkedin.com/in/shantulshi"
+              >🔗📥</a
+            >
+          </li>
+          <li><a title="Silly games" href="/games.html">🎮🤪</a></li>
+        </ul>
+      </div>
     </div>
     <script type="text/javascript">
-        function onHello() {
-            const body = document.querySelector('body');
-            if(body.style.background) {
-                body.style.background="";
-            } else {
-                body.style.background="url('https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif')"
-            }
-
-            if(body.style.cursor) {
-                body.style.cursor="";
-            } else {
-                body.style.cursor="url('/static/lightsaber.png'), pointer"
-            }
+      function onHello() {
+        const body = document.querySelector("body");
+        if (body.style.background) {
+          body.style.background = "";
+        } else {
+          body.style.background =
+            "url('https://i.kym-cdn.com/photos/images/original/001/475/420/c62.gif')";
         }
-        (() => {
-            const mainContent = document.querySelector('.body-content');
-            mainContent.insertBefore(
-                Object.assign(document.createElement('a'), {
-                    innerHTML: '<h1>👋 hello there</h1>',
-                    tabindex: 0,
-                    onclick: onHello,
-                }), mainContent.firstChild);
-        })();
+
+        if (body.style.cursor) {
+          body.style.cursor = "";
+        } else {
+          body.style.cursor = "url('/static/lightsaber.png'), pointer";
+        }
+      }
+      (() => {
+        const mainContent = document.querySelector(".body-content");
+        mainContent.insertBefore(
+          Object.assign(document.createElement("a"), {
+            innerHTML: "<h1>👋 hello there</h1>",
+            tabindex: 0,
+            onclick: onHello,
+          }),
+          mainContent.firstChild,
+        );
+      })();
     </script>
-</body>
+  </body>
 </html>
